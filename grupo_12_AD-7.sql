@@ -1,10 +1,10 @@
-/*Desactivo un trigger que viene por defecto y que impone que 鷑icamente se puede
-cambiar a un empleado de job_id en una sola ocasi髇, y con ello posibilito cambiar
-a un empleado de job_id en dos o m醩 ocasiones*/
+/*Desactivo un trigger que viene por defecto y que impone que 煤nicamente se puede
+cambiar a un empleado de job_id en una sola ocasi贸n, y con ello posibilito cambiar
+a un empleado de job_id en dos o m谩s ocasiones*/
 alter trigger HR.UPDATE_JOB_HISTORY disable;
 
-/*Funci髇 que recibe un par醡etro del tipo Jobs.job_id, de manera que si este par醡etro
-existe como job_id en la tabla JOBS, la funci髇 devuelve true y false en caso contrario.*/
+/*Funci贸n que recibe un par谩metro del tipo Jobs.job_id, de manera que si este par谩metro
+existe como job_id en la tabla JOBS, la funci贸n devuelve true y false en caso contrario.*/
 create or replace function existejobid(p_jobid Jobs.job_id%type)
    return boolean as
    k pls_integer := 0;
@@ -17,8 +17,8 @@ begin
    end if;
 end existejobid;
 
-/*Funci髇 que recibe un par醡etro del tipo Employees.employee_id, de manera que si este par醡etro
-existe como employee_id en la tabla EMPLEADOS, la funci髇 devuelve true y false en caso contrario.*/
+/*Funci贸n que recibe un par谩metro del tipo Employees.employee_id, de manera que si este par谩metro
+existe como employee_id en la tabla EMPLEADOS, la funci贸n devuelve true y false en caso contrario.*/
 create or replace function existeempleadoid(p_empleadoid Employees.employee_id%type)
    return boolean as
    k pls_integer := 0;
@@ -31,10 +31,10 @@ begin
    end if;
 end existeempleadoid;
 
-/*Procedimiento que recibe dos par醡etros, uno del tipo Employees.employee y otro del tipo
+/*Procedimiento que recibe dos par谩metros, uno del tipo Employees.employee y otro del tipo
 Employees.job_id, que llama a las funciones existejobid y existempleadoid, y si ambas existen
-entonces establece al par醡etro del tipo Employees.job_id como nuevo job_id del empleado cuyo
-employee_id se ha introducido como par醡etro*/
+entonces establece al par谩metro del tipo Employees.job_id como nuevo job_id del empleado cuyo
+employee_id se ha introducido como par谩metro*/
 
 create or replace procedure setOficio(empleadoid Employees.employee_id%type,
                              jobid Employees.job_id%type)
@@ -55,7 +55,7 @@ begin
    end if;
 end;
 
-/*Bloque an髇imo que pone en pr醕tica el procedimiento anterior*/
+/*Bloque an贸nimo que pone en pr谩ctica el procedimiento anterior*/
 declare
    v_empleadoid Employees.job_id%type := &idempleadoaintroducir;
    v_jobid Employees.job_id%type := &idjobaintroducir;
@@ -64,18 +64,18 @@ begin
 end;
 rollback;
 
-/*Tabla EMP_AUDIT cuyos campos son employee_id, momento en el que se hace la actualizaci髇 de salario,
+/*Tabla EMP_AUDIT cuyos campos son employee_id, momento en el que se hace la actualizaci贸n de salario,
 y comentario donde se indica el salario anterior y el salario nuevo*/
 drop table EMP_AUDIT;
 create table EMP_AUDIT(
    employee_id smallint, momento timestamp, Comentario varchar(100)
 );
 
-/*Disparador que inmediatamente despu閟 de producirse cualquier actualizaci髇 en el la tabla empleados,
+/*Disparador que inmediatamente despu茅s de producirse cualquier actualizaci贸n en el la tabla empleados,
 se pregunta si ha cambiado el salario, y si ha cambiado entonces inserta un registro en la tabla EMP_AUDIT informando:
-- del empleado que ha cambiado de salario (a trav閟 del campo employee_id),
-- del momento en el que se ha cambiado (a trav閟 de systimestamp),
-- del salario anterior y del nuevo salario (a trav閟 del campo salary).*/
+- del empleado que ha cambiado de salario (a trav茅s del campo employee_id),
+- del momento en el que se ha cambiado (a trav茅s de systimestamp),
+- del salario anterior y del nuevo salario (a trav茅s del campo salary).*/
 create or replace trigger Avisonuevosalario
 after update on Employees for each row
 declare
@@ -85,7 +85,7 @@ begin
    end if;
 end;
 
-/*Bloque an髇imo para probar que el disparador Avisonuevosalario funciona correctamente*/
+/*Bloque an贸nimo para probar que el disparador Avisonuevosalario funciona correctamente*/
 declare
    v_empleadoid Employees.job_id%type := &idempleadoaintroducir;
    v_salary Employees.salary%type := &salarionuevoaintroducir;
